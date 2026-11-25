@@ -764,6 +764,12 @@ for (const [src, rel] of copiedMedia) fs.copyFileSync(src, path.join(OUT, rel));
 for (const f of fs.readdirSync(path.join(ROOT, 'web'))) fs.copyFileSync(path.join(ROOT, 'web', f), path.join(OUT, f));
 fs.copyFileSync(path.join(ROOT, 'node_modules/d3/dist/d3.min.js'), path.join(OUT, 'vendor/d3.min.js'));
 fs.writeFileSync(path.join(OUT, '.nojekyll'), '');
+// GitHub Pages reads the custom domain from a CNAME file at the site root, and
+// each publish replaces the branch, so the file has to come from the build.
+const cname = path.join(OUT, 'CNAME');
+const domain = String(config.customDomain || '').trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+if (domain) fs.writeFileSync(cname, domain + '\n');
+else if (fs.existsSync(cname)) fs.rmSync(cname);
 
 // A single-page preview variant: no document wrapper, CSS and app inlined,
 // d3 from cdnjs (for hosts that wrap the page themselves).

@@ -89,6 +89,42 @@ gets an automatic crop only when a photo is linked to them alone.
 - Notes and source titles are published as written, so keep living people's
   names out of them.
 
+## Publishing and the custom domain
+
+The built `dist/` folder (without `preview.html`) is published to the
+`gh-pages` branch as a single commit, replacing the branch each time so old
+builds do not stay in its history. GitHub Pages serves that branch.
+
+To serve the site at its own domain (for example `mckeehanfamily.org`):
+
+1. At the domain's DNS provider, add these records (turn off any proxying,
+   such as Cloudflare's orange cloud, so GitHub can issue the certificate):
+
+   | Type | Name | Value |
+   |---|---|---|
+   | A | `@` | `185.199.108.153` |
+   | A | `@` | `185.199.109.153` |
+   | A | `@` | `185.199.110.153` |
+   | A | `@` | `185.199.111.153` |
+   | AAAA | `@` | `2606:50c0:8000::153` |
+   | AAAA | `@` | `2606:50c0:8001::153` |
+   | AAAA | `@` | `2606:50c0:8002::153` |
+   | AAAA | `@` | `2606:50c0:8003::153` |
+   | CNAME | `www` | `alekxos.github.io` |
+
+2. Set `customDomain` in `site.config.json`, rebuild and publish. The build
+   writes `dist/CNAME`, which tells GitHub Pages the domain. Do this only after
+   the DNS records exist, because the github.io address starts redirecting to
+   the domain as soon as the file is published.
+3. In the repository's Settings, Pages, tick "Enforce HTTPS" once GitHub has
+   issued the certificate (usually within an hour).
+
+Optional but recommended: verify the domain under your GitHub account's
+Settings, Pages, so no other GitHub repository can claim it.
+
+All paths in the site are relative, so it works at a domain root or under a
+sub-path such as `/mckeehan_family/`.
+
 ## RootsMagic bootstrap
 
 `tools/rmtree-to-gedcom.py` converts a RootsMagic `.rmtree` file to GEDCOM,
