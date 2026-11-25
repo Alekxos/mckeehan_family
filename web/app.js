@@ -84,7 +84,7 @@
     $('#brand-sub').textContent = `${META.subtitle || 'Family tree'} · ${META.counts.generations} generations · since ${META.counts.earliest}`;
     $('#key-line').textContent = `${META.rootLabel}’s direct line`;
     const pv = META.privacy || {};
-    $('#key-living').textContent = pv.living === 'hidden' ? 'Living, details private' : pv.livingDetails === 'birth' ? 'Living (name and birth only)' : 'Living (name only)';
+    $('#key-living').textContent = pv.living === 'hidden' ? 'Living, details private' : pv.livingDetails === 'birth' || pv.livingDetails === 'year' ? 'Living (name and birth only)' : 'Living (name only)';
     if (!Object.values(P).some((p) => p.hidden)) $('#key-hidden').remove();
     document.title = META.title;
     setupSearch();
@@ -821,7 +821,7 @@
   function privacyText() {
     const pv = META.privacy || {};
     if (pv.living === 'hidden') return 'People who may still be living are shown only as “Living”, with no details.';
-    const what = pv.livingDetails === 'birth' ? 'their names and birth details' : 'their names';
+    const what = { birth: 'their names and birth details', year: 'their names, birth years and birthplaces' }[pv.livingDetails] || 'their names';
     return `For people who may still be living, the site shows only ${what}; other events, photos and stories are kept private.`;
   }
 

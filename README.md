@@ -77,14 +77,15 @@ gets an automatic crop only when a photo is linked to them alone.
 - Anyone with `RESN privacy`/`confidential`, or with no death record and born
   (or estimated born) within the last 100 years, counts as living.
 - `privacy.living` sets how a living person's name appears: `hidden`, `given`
-  (first name only) or `full`. `privacy.livingDetails` is `birth` (birth date
-  and place) or `none`. Living people never get other events, notes, photos,
+  (first name only) or `full`. `privacy.livingDetails` is `year` (birth year
+  and birthplace), `birth` (full birth date and birthplace) or `none`. Living people never get other events, notes, photos,
   portraits or sources.
 - `privacy.showDescendantsOfRoot` and `privacy.showLivingCollaterals` include the
   starting person's descendants and living cousins; when they are off, cards show
   "+N" where living relatives were left out.
 - Current settings (chosen by the family, November 2026): full names with birth
-  date and place, descendants and cousins included.
+  year and birthplace, descendants and cousins included. Full birth dates of
+  living people are never written to the output.
 - Notes and source titles are published as written, so keep living people's
   names out of them.
 

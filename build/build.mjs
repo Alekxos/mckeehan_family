@@ -285,10 +285,15 @@ for (const id of keep) {
     rec.surname = mode === 'full' ? p.name.surname : '';
     if (mode === 'full' && p.name.nick) rec.nick = p.name.nick;
     rec.events = [];
-    if (config.privacy.livingDetails === 'birth' && mode !== 'hidden') {
+    const details = config.privacy.livingDetails || 'none';
+    if ((details === 'birth' || details === 'year') && mode !== 'hidden') {
       const b = eventOf(p, ['BIRT']);
       if (b) {
-        rec.events = [{ label: 'Born', tag: 'BIRT', date: b.date?.text || undefined, year: b.date?.year || undefined, sort: b.date?.sort || undefined, place: placeRef(b.place) || undefined }];
+        // 'year' publishes the birth year only: no day or month anywhere in the output.
+        const y = b.date?.year || undefined;
+        const date = details === 'year' ? (y ? String(y) : undefined) : b.date?.text || undefined;
+        const sort = details === 'year' ? (y ? y * 10000 : undefined) : b.date?.sort || undefined;
+        rec.events = [{ label: 'Born', tag: 'BIRT', date, year: y, sort, place: placeRef(b.place) || undefined }];
         rec.born = b.date?.year || undefined;
         rec.birthPlace = placeRef(b.place) || undefined;
         rec.origin = rec.birthPlace ? placeIndex[rec.birthPlace].origin || undefined : undefined;
@@ -359,7 +364,7 @@ for (const rec of Object.values(out.people)) {
 }
 // Children of the root are hidden, so the root's own family record above
 // can be dropped when it holds nobody but the root.
-console.log(`  publishing ${Object.keys(out.people).length} people (${[...keep].filter((x) => living.has(x)).length} living, ${mode === 'hidden' ? 'shown as "Living"' : config.privacy.livingDetails === 'birth' ? 'shown with name and birth details only' : 'shown by name only'})`);
+console.log(`  publishing ${Object.keys(out.people).length} people (${[...keep].filter((x) => living.has(x)).length} living, ${mode === 'hidden' ? 'shown as "Living"' : { birth: 'shown with name and birth date and place only', year: 'shown with name, birth year and birthplace only' }[config.privacy.livingDetails] || 'shown by name only'})`);
 
 // ---------------------------------------------------------------- layout
 const CARD_W = 188, CARD_H = 76, GAP = 28;

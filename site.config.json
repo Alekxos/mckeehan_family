@@ -12,13 +12,13 @@
   },
   "rootLabel": "Dawn",
   "privacy": {
-    "_living_options": "living: hidden = 'Living' with no name; given = first name only; full = full name. livingDetails: none = no dates or places; birth = birth date and place only.",
+    "_living_options": "living: hidden = 'Living' with no name; given = first name only; full = full name. livingDetails: none = no dates or places; year = birth year and birthplace; birth = full birth date and birthplace.",
     "living": "full",
     "presumeLivingIfBornWithinYears": 100,
     "showDescendantsOfRoot": true,
     "showLivingCollaterals": true,
-    "_note": "Set 2026-11-24 at the owner's request: living relatives are shown with full names and birth date and place; never other events, notes, photos or sources.",
-    "livingDetails": "birth"
+    "_note": "Set 2026-11-24/25 at the owner's request: living relatives are shown with full names, birth year and birthplace; never full birth dates, other events, notes, photos or sources.",
+    "livingDetails": "year"
   },
   "contactNote": "",
   "sourcesNote": "Built from family papers including \"The Tennessee Connection\", \"The Swedish Connection\", \"Samuel McKeehan\" and \"Ben and Elsie McKeehan\", plus a RootsMagic tree and ongoing research.",
