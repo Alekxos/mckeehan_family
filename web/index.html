@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The McKeehan Family</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="An interactive family tree of the McKeehan family and its branches, from the Palatinate, Ulster, England and Sweden to Tennessee and the Pacific Northwest.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="#tree" id="brand">
+    <span class="brand-title" id="brand-title">The McKeehan Family</span>
+    <span class="brand-sub" id="brand-sub">Family tree</span>
+  </a>
+  <nav class="tabs" aria-label="Views">
+    <a class="tab" href="#tree" data-view="tree">Tree</a>
+    <a class="tab" href="#fan" data-view="fan">Ancestors</a>
+    <a class="tab" href="#map" data-view="map">Map</a>
+    <a class="tab" href="#photos" data-view="photos">Photos</a>
+    <a class="tab" href="#stories" data-view="stories">Stories</a>
+    <a class="tab" href="#people" data-view="people">People</a>
+  </nav>
+  <div class="search" role="search">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="search" type="search" placeholder="Find a person" autocomplete="off" aria-label="Find a person" aria-controls="results">
+    <ul class="results" id="results" role="listbox" hidden></ul>
+  </div>
+</header>
+
+<main>
+  <section class="view" id="view-tree" hidden>
+    <svg class="canvas" id="tree-svg" aria-label="Family tree. Drag to pan, scroll or pinch to zoom."></svg>
+    <div class="rail" id="rail" aria-hidden="true"></div>
+    <div class="welcome" id="welcome" hidden></div>
+    <div class="key" id="tree-key">
+      <span><i class="sw-line"></i><span id="key-line">Direct line</span></span>
+      <span><i class="sw-card"></i><span id="key-living">Living</span></span>
+      <span id="key-hidden"><i class="sw-badge">+2</i>Living relatives not shown</span>
+    </div>
+    <div class="controls">
+      <button class="ctrl" id="zoom-in" aria-label="Zoom in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="ctrl" id="zoom-out" aria-label="Zoom out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+      <button class="ctrl" id="zoom-fit" aria-label="Show the whole tree"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      <button class="ctrl" id="zoom-root" aria-label="Go to the start of the tree"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></button>
+    </div>
+  </section>
+
+  <section class="view" id="view-fan" hidden>
+    <svg class="canvas" id="fan-svg" aria-label="Ancestor fan chart"></svg>
+    <div class="overlay-note" id="fan-note"></div>
+    <div class="key" id="fan-key"></div>
+    <div class="controls">
+      <button class="ctrl" data-zoom="fan-in" aria-label="Zoom in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="ctrl" data-zoom="fan-out" aria-label="Zoom out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+      <button class="ctrl" data-zoom="fan-fit" aria-label="Fit chart"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    </div>
+  </section>
+
+  <section class="view" id="view-map" hidden>
+    <svg class="canvas" id="map-svg" aria-label="Map of places in the family's history"></svg>
+    <div class="overlay-note" id="map-note"></div>
+    <div class="controls">
+      <button class="ctrl" data-zoom="map-in" aria-label="Zoom in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="ctrl" data-zoom="map-out" aria-label="Zoom out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+      <button class="ctrl" data-zoom="map-fit" aria-label="Fit map"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    </div>
+  </section>
+
+  <section class="view page" id="view-photos" hidden></section>
+  <section class="view page" id="view-stories" hidden></section>
+  <section class="view page" id="view-people" hidden></section>
+
+  <aside class="panel" id="panel" hidden aria-live="polite"></aside>
+  <div class="tip" id="tip" hidden></div>
+  <div class="lightbox" id="lightbox" hidden></div>
+</main>
+
+<script src="vendor/d3.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+node_modules/
+dist/
+# Holds living relatives' details from the RootsMagic file: never publish.
+content/bootstrap/
