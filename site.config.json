@@ -1,7 +1,7 @@
 {
   "title": "The McKeehan Family",
   "subtitle": "The McKeehans and their branches",
-  "customDomain": "",
+  "customDomain": "mckeehanfamily.org",
   "_customDomain": "Domain the site is served at (for example mckeehanfamily.org). When set, the build writes dist/CNAME so GitHub Pages keeps the domain on every publish. Leave empty until the domain's DNS points at GitHub Pages, or the github.io address will redirect to a domain that does not work yet.",
   "gedcom": [
     "/mnt/project-files/tree/mckeehan.ged",
