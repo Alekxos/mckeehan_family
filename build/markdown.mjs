@@ -34,7 +34,7 @@ function inline(text, resolvePerson) {
     people.push(p.id);
     return `<a class="person-link" href="#person-${p.id}" data-person="${p.id}">${shown}</a>`;
   });
-  out = out.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (_, alt, src) => `<img src="${src}" alt="${alt}" loading="lazy">`);
+  out = out.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+&quot;(.*?)&quot;)?\)/g, (_, alt, src) => `<img src="${src}" alt="${alt}" loading="lazy">`);
   out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => {
     const ext = /^https?:/.test(href) ? ' target="_blank" rel="noopener"' : '';
     return `<a href="${href}"${ext}>${label}</a>`;
@@ -53,9 +53,21 @@ export function renderMarkdown(src, resolvePerson) {
     r.people.forEach((p) => people.add(p));
     return r.html;
   };
+  const IMG = /^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$/;
   for (const block of blocks) {
     const b = block.trim();
     if (!b) continue;
+    // A block of nothing but images becomes figures: one wide, or several side by side.
+    // ![alt](src "caption"): the caption may hold [[person]] links.
+    const lines = b.split('\n').map((l) => l.trim());
+    if (lines.every((l) => IMG.test(l))) {
+      const figs = lines.map((l) => {
+        const [, alt, src, cap] = l.match(IMG);
+        return `<figure class="story-fig"><img src="${esc(src)}" alt="${esc(alt)}" loading="lazy">${cap ? `<figcaption>${run(cap)}</figcaption>` : ''}</figure>`;
+      });
+      html.push(figs.length > 1 ? `<div class="fig-row">${figs.join('')}</div>` : figs[0]);
+      continue;
+    }
     const h = b.match(/^(#{1,4})\s+(.*)$/);
     if (h && !b.includes('\n')) {
       const level = Math.min(h[1].length + 1, 4);

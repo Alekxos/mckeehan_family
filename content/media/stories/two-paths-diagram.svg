@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 640" width="760" height="640" role="img" aria-labelledby="t d">
+<title id="t">Two paths to Brewer and Peggy</title>
+<desc id="d">Brewer McKeehan and Peggy Patton had sons Samuel Brewer McKeehan and George McKeehan. Samuel Brewer's daughter Hannah Elizabeth and George's son Samuel W. were first cousins who married in 1860. Their children, among them Samuel Rosencrans McKeehan, who took the family west in 1898, descend from Brewer and Peggy along two lines.</desc>
+<rect width="760" height="640" fill="#f3f1ea"/>
+<path d="M380 70 V 108" fill="none" stroke="#55605e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M374 158 C 374 200, 190 190, 190 228" fill="none" stroke="#a2701a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M386 158 C 386 200, 570 190, 570 228" fill="none" stroke="#3b6e96" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M190 278 V 338" fill="none" stroke="#a2701a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M570 278 V 338" fill="none" stroke="#3b6e96" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M190 382 C 190 430, 374 420, 374 458" fill="none" stroke="#a2701a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M570 382 C 570 430, 386 420, 386 458" fill="none" stroke="#3b6e96" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M377 498 V 548" fill="none" stroke="#a2701a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M383 498 V 548" fill="none" stroke="#3b6e96" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M377 590 V 604" fill="none" stroke="#a2701a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M383 590 V 604" fill="none" stroke="#3b6e96" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="215.0" y="14.0" width="330" height="56" rx="8" fill="#fffdf7" stroke="#cfd4cb" stroke-width="1.2"/>
+<text x="380" y="38" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="600" fill="#1f2a2c">John Patton  &amp;  Mary McKeehan</text>
+<text x="380" y="56" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#55605e">Peggy’s parents, the powder makers</text>
+<rect x="190.0" y="107.0" width="380" height="52" rx="8" fill="#fffdf7" stroke="#1f2a2c" stroke-width="1.6"/>
+<text x="380" y="129" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="600" fill="#1f2a2c">Brewer McKeehan  &amp;  Margaret “Peggy” Patton</text>
+<text x="380" y="147" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#55605e">married 27 March 1794</text>
+<rect x="40.0" y="227.0" width="300" height="52" rx="8" fill="#fffdf7" stroke="#a2701a" stroke-width="1.6"/>
+<text x="190" y="249" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="600" fill="#1f2a2c">Samuel “Brewer” McKeehan</text>
+<text x="190" y="267" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#55605e">born about 1795 · married Isabella Simerly</text>
+<rect x="425.0" y="227.0" width="290" height="52" rx="8" fill="#fffdf7" stroke="#3b6e96" stroke-width="1.6"/>
+<text x="570" y="249" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="600" fill="#1f2a2c">George McKeehan</text>
+<text x="570" y="267" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#55605e">born 1802 · married Hannah Lusk</text>
+<rect x="60.0" y="338.0" width="260" height="44" rx="8" fill="#fffdf7" stroke="#a2701a" stroke-width="1.6"/>
+<text x="190" y="356" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="600" fill="#1f2a2c">Hannah Elizabeth McKeehan</text>
+<text x="190" y="374" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#55605e">born 1836</text>
+<rect x="450.0" y="338.0" width="240" height="44" rx="8" fill="#fffdf7" stroke="#3b6e96" stroke-width="1.6"/>
+<text x="570" y="356" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="600" fill="#1f2a2c">Samuel W. McKeehan</text>
+<text x="570" y="374" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#55605e">born 1832</text>
+<text x="380" y="356" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#55605e" font-style="italic">first cousins</text>
+<path d="M326 360 H 334" fill="none" stroke="#cfd4cb" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+<path d="M426 360 H 444" fill="none" stroke="#cfd4cb" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+<rect x="230.0" y="458.0" width="300" height="40" rx="8" fill="#f3f1ea" stroke="#1f2a2c" stroke-width="1.4"/>
+<text x="380" y="483" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#55605e">married 10 May 1860</text>
+<rect x="230.0" y="548.0" width="300" height="42" rx="8" fill="#fffdf7" stroke="#1f2a2c" stroke-width="1.6"/>
+<text x="380" y="565" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="600" fill="#1f2a2c">Samuel Rosencrans McKeehan</text>
+<text x="380" y="583" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#55605e">born 1864, went west in 1898</text>
+<text x="380" y="628" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1f2a2c">and on to the McKeehans of Washington and Idaho</text>
+<text x="80" y="200" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#a2701a" font-style="italic">first path</text>
+<text x="680" y="200" text-anchor="end" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#3b6e96" font-style="italic">second path</text>
+</svg>

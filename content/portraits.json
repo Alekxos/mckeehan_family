@@ -1,12 +1,93 @@
 {
-  "_note": "Face crops for the round portraits on tree cards. 'person' is matched like a story link: 'Name' or 'Name (birth year)'. 'face' is the centre of the face as fractions of the photo's width and height; 'size' is the side of the square crop as a fraction of the photo's width. A photo named here is also added to that person's photos. People presumed living never get a portrait. A person with no entry gets an automatic crop only when they are the only person linked to a photo.",
-  "portraits": [
-    { "person": "Samuel Rosencrans McKeehan (1864)", "file": "media/samuel_rosencrans_mckeehan.jpg", "title": "Samuel Rosencrans McKeehan standing beside an early automobile", "face": [0.31, 0.27], "size": 0.17 },
-    { "person": "Ben LeRoy McKeehan (1897)", "file": "media/ben_mckeehan_wwi.jpg", "title": "Ben McKeehan in his World War I uniform", "face": [0.47, 0.125], "size": 0.3 },
-    { "person": "Amos Greene", "file": "media/amos_and_julia_greene.jpg", "title": "Amos and Julia Greene", "face": [0.3, 0.52], "size": 0.38 },
-    { "person": "Julia Elizabeth McCanles", "file": "media/amos_and_julia_greene.jpg", "title": "Amos and Julia Greene", "face": [0.72, 0.5], "size": 0.34 },
-    { "person": "Anna Ford (1813)", "file": "media/william_hatley_and_anna_ford.jpg", "title": "Anna (Ford) Hatley; the left half of this photograph, which held William, has faded away", "face": [0.7, 0.52], "size": 0.3 },
-    { "person": "Zakri Zakrisson", "file": "media/zakri_zakrisson_and_maret_mattsdotter.jpg", "title": "Zakri Zakrisson and Maret Mattsdotter, parents of Märet Zakrisdotter (Mary Shodene)", "face": [0.135, 0.33], "size": 0.32 },
-    { "person": "Maret Mattsdotter", "file": "media/zakri_zakrisson_and_maret_mattsdotter.jpg", "title": "Zakri Zakrisson and Maret Mattsdotter, parents of Märet Zakrisdotter (Mary Shodene)", "face": [0.73, 0.355], "size": 0.32 }
-  ]
+ "_note": "Face crops for the round portraits on tree cards. 'person' is matched like a story link: 'Name' or 'Name (birth year)'. 'face' is the centre of the face as fractions of the photo's width and height; 'size' is the side of the square crop as a fraction of the photo's width. A photo named here is also added to that person's photos. People presumed living never get a portrait. A person with no entry gets an automatic crop only when they are the only person linked to a photo.",
+ "portraits": [
+  {
+   "person": "Samuel Rosencrans McKeehan (1864)",
+   "file": "media/samuel_rosencrans_mckeehan.jpg",
+   "title": "Samuel Rosencrans McKeehan standing beside an early automobile",
+   "face": [
+    0.31,
+    0.27
+   ],
+   "size": 0.17
+  },
+  {
+   "person": "Ben LeRoy McKeehan (1897)",
+   "file": "media/ben_mckeehan_wwi.jpg",
+   "title": "Ben McKeehan in his World War I uniform",
+   "face": [
+    0.47,
+    0.125
+   ],
+   "size": 0.3
+  },
+  {
+   "person": "Amos Greene",
+   "file": "media/amos_and_julia_greene.jpg",
+   "title": "Amos and Julia Greene",
+   "face": [
+    0.3,
+    0.52
+   ],
+   "size": 0.38
+  },
+  {
+   "person": "Julia Elizabeth McCandless",
+   "file": "media/amos_and_julia_greene.jpg",
+   "title": "Amos and Julia Greene",
+   "face": [
+    0.72,
+    0.5
+   ],
+   "size": 0.34
+  },
+  {
+   "person": "Anna Ford (1813)",
+   "file": "media/william_hatley_and_anna_ford.jpg",
+   "title": "Anna (Ford) Hatley; the left half of this photograph, which held William, has faded away",
+   "face": [
+    0.7,
+    0.52
+   ],
+   "size": 0.3
+  },
+  {
+   "person": "Zakri Zakrisson",
+   "file": "media/zakri_zakrisson_and_maret_mattsdotter.jpg",
+   "title": "Zakri Zakrisson and Maret Mattsdotter, parents of Märet Zakrisdotter (Mary Shodene)",
+   "face": [
+    0.135,
+    0.33
+   ],
+   "size": 0.32
+  },
+  {
+   "person": "Maret Mattsdotter",
+   "file": "media/zakri_zakrisson_and_maret_mattsdotter.jpg",
+   "title": "Zakri Zakrisson and Maret Mattsdotter, parents of Märet Zakrisdotter (Mary Shodene)",
+   "face": [
+    0.73,
+    0.355
+   ],
+   "size": 0.32
+  },
+  {
+   "person": "William M. Hatley (1807)",
+   "file": "media/william_hatley.jpg",
+   "face": [
+    0.5,
+    0.145
+   ],
+   "size": 0.34
+  },
+  {
+   "person": "Hannah Elizabeth McKeehan (1836)",
+   "file": "media/hannah_mckeehan_dodge.jpg",
+   "face": [
+    0.505,
+    0.19
+   ],
+   "size": 0.26
+  }
+ ]
 }

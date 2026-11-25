@@ -255,9 +255,10 @@ function mediaRef(m) {
     while ([...copiedMedia.values()].includes('media/' + name)) name = '_' + name;
     copiedMedia.set(found, 'media/' + name);
   }
-  const kind = /\.(jpe?g|png|gif|webp|avif)$/i.test(found) ? 'image' : /\.pdf$/i.test(found) ? 'pdf' : 'file';
+  const kind = /\.(jpe?g|png|gif|webp|avif|svg)$/i.test(found) ? 'image' : /\.pdf$/i.test(found) ? 'pdf' : 'file';
   const src = copiedMedia.get(found);
-  return { src, thumb: kind === 'image' ? src.replace(/^media\//, 'media/thumbs/') : undefined, title: m.title, kind };
+  const thumb = /\.(jpe?g|png|webp)$/i.test(found) ? src.replace(/^media\//, 'media/thumbs/') : kind === 'image' ? src : undefined;
+  return { src, thumb, title: m.title, kind };
 }
 
 // ---------------------------------------------------------------- published records
@@ -572,6 +573,33 @@ function makeResolver(what) {
   return resolve;
 }
 
+// Credits for story pictures, keyed by file name: content/media/stories/credits.json
+// and <gedcom folder>/media/stories/credits.json, each {"file.jpg": {"credit", "url"}}.
+const storyCredits = Object.assign({}, ...[path.join(ROOT, 'content/media/stories/credits.json'), path.join(gedDir, 'media/stories/credits.json')]
+  .filter((f) => fs.existsSync(f)).map((f) => JSON.parse(fs.readFileSync(f, 'utf8'))));
+const escAttr = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function creditHtml(file) {
+  const c = storyCredits[path.basename(file)];
+  if (!c || !c.credit) return '';
+  const text = escAttr(c.credit);
+  return `<span class="credit">${c.url ? `<a href="${escAttr(c.url)}" target="_blank" rel="noopener">${text}</a>` : text}</span>`;
+}
+// Copy each picture a story uses and point it at the published copy, with its credit.
+function storyPictures(html) {
+  return html.replace(/<figure class="story-fig"><img src="([^"]+)"([^>]*)>(?:<figcaption>([\s\S]*?)<\/figcaption>)?<\/figure>|<img src="([^"]+)"/g,
+    (all, figSrc, rest, cap, bareSrc) => {
+      const file = (figSrc || bareSrc).replace(/&amp;/g, '&');
+      if (/^(https?:|data:)/.test(file)) return all;
+      const m = mediaRef({ file, title: '' });
+      // A picture that isn't there yet is left out rather than shown broken.
+      if (!m) return figSrc ? '' : all;
+      if (bareSrc) return `<img src="${m.src}"`;
+      const credit = creditHtml(file);
+      const capHtml = cap || credit ? `<figcaption>${cap || ''}${credit}</figcaption>` : '';
+      return `<figure class="story-fig"><img src="${m.src}"${rest} data-full="${m.src}">${capHtml}</figure>`;
+    });
+}
+
 function buildStories() {
   const dirs = [path.join(ROOT, 'content/stories'), path.join(path.dirname(gedPath), 'stories')].filter((d) => fs.existsSync(d));
   const resolve = makeResolver('story link');
@@ -579,7 +607,10 @@ function buildStories() {
     .flatMap((dir) => fs.readdirSync(dir).filter((f) => f.endsWith('.md')).map((f) => [dir, f]))
     .map(([dir, f]) => {
       const { data, body } = parseFrontmatter(fs.readFileSync(path.join(dir, f), 'utf8'));
-      const { html, people: linked } = renderMarkdown(body, resolve);
+      const rendered = renderMarkdown(body, resolve);
+      const html = storyPictures(rendered.html).replace(/<div class="fig-row">(<figure[\s\S]*?<\/figure>)<\/div>/g, (all, one) => (/<\/figure><figure/.test(one) ? all : one)).replace(/<div class="fig-row"><\/div>/g, '');
+      const linked = rendered.people;
+      const cover = data.image ? mediaRef({ file: data.image, title: '' }) : null;
       const route = (Array.isArray(data.route) ? data.route : []).map((line) => {
         const [place, year, label] = line.split('|').map((s) => s.trim());
         const key = placeRef({ name: place });
@@ -593,6 +624,7 @@ function buildStories() {
         order: Number(data.order) || 99,
         era: data.era || '',
         html,
+        cover: cover ? { src: cover.src, thumb: cover.thumb, position: data.imagePosition || undefined } : undefined,
         people: linked,
         route,
       };
@@ -642,8 +674,14 @@ for (const rec of Object.values(out.people)) {
     g.people.push(rec.id);
   }
 }
+// Documents (letters, records, clippings) never become portraits.
+const DOCUMENT = /\b(pedigree|diary|obituary|pension|register|flyttningsbevis|marriage|certificate|letter|census|record|deed|will|map|bible|sketch|clipping|newspaper|news|journal|article|license|licence|page|document|form|chart|sheet|book|notice|card)s?\b/i;
+const isDocument = (g) => DOCUMENT.test(`${g.src.replace(/^media\//, '').replace(/[_-]/g, ' ')} ${g.title || ''}`);
+// Photos of several people (named in the title) need a face crop from portraits.json.
+// A "detail" is already cut down to one person.
+const isGroup = (g) => /\b(and|with|family|group|children|granddaughters|grandsons|brothers|sisters)\b/i.test(g.title || '') && !/\bdetail\b/i.test(g.title || '');
 for (const g of gallery)
-  if (g.people.length === 1 && !portraitJobs.has(g.people[0])) portraitJobs.set(g.people[0], { src: g.src, face: null, size: null });
+  if (g.people.length === 1 && !portraitJobs.has(g.people[0]) && !isDocument(g) && !isGroup(g)) portraitJobs.set(g.people[0], { src: g.src, face: null, size: null });
 for (const [id] of portraitJobs) out.people[id].portrait = `media/portraits/${id}.jpg`;
 const bornOf = (id) => out.people[id].born || out.people[id].estBorn || 3000;
 gallery.sort((a, b) => Math.min(...a.people.map(bornOf)) - Math.min(...b.people.map(bornOf)));

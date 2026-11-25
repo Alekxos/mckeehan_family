@@ -82,7 +82,7 @@
     P = F.people; FAM = F.families; L = F.layout; META = F.meta; ROOT = META.rootId;
     $('#brand-title').textContent = META.title;
     $('#brand-sub').textContent = `${META.subtitle || 'Family tree'} · ${META.counts.generations} generations · since ${META.counts.earliest}`;
-    $('#key-line').textContent = `${META.rootLabel}’s direct line`;
+    $('#key-line').textContent = 'Direct line';
     const pv = META.privacy || {};
     $('#key-living').textContent = pv.living === 'hidden' ? 'Living, details private' : pv.livingDetails === 'birth' || pv.livingDetails === 'year' ? 'Living (name and birth only)' : 'Living (name only)';
     if (!Object.values(P).some((p) => p.hidden)) $('#key-hidden').remove();
@@ -310,7 +310,7 @@
     const feat = META.featuredId && P[META.featuredId];
     el.innerHTML = `
       <h2>${esc(META.title)}, ${META.counts.earliest} to today</h2>
-      <p>${esc(META.rootLabel)} is near the bottom of the tree${famsOf(P[ROOT]).some((f) => f.children.length) ? `, with ${META.rootSex === 'F' ? 'her' : META.rootSex === 'M' ? 'his' : 'their'} children below` : ''}. Follow the gold line up through ${META.rootSex === 'F' ? 'her' : META.rootSex === 'M' ? 'his' : 'their'} ancestors. Drag to move around, scroll or pinch to zoom, and click anyone to read about them.</p>
+      <p>The tree starts with ${esc(fullName(P[ROOT]))} near the bottom${famsOf(P[ROOT]).some((f) => f.children.length) ? `, with ${META.rootSex === 'F' ? 'her' : META.rootSex === 'M' ? 'his' : 'their'} children below` : ''}. Follow the gold line up through the McKeehans and the families they married into. Drag to move around, scroll or pinch to zoom, and click anyone to read about them.</p>
       <div class="stats">
         <div><b>${META.counts.people}</b><span>People</span></div>
         <div><b>${META.counts.ancestors}</b><span>Ancestors</span></div>
@@ -423,8 +423,8 @@
     // Note and key
     const known = slots.filter((s) => s.id && s.gen > 0 && s.gen <= maxGen).length;
     const total = 2 ** (maxGen + 1) - 2;
-    $('#fan-note').innerHTML = `<h2>${esc(META.rootLabel)}’s ancestors</h2>
-      Each ring is one generation further back, father’s side on the left and mother’s on the right. Color shows where each person was born.
+    $('#fan-note').innerHTML = `<h2>Generations of ancestors</h2>
+      ${esc(META.rootLabel)} is at the centre, and each ring is one generation further back, father’s side on the left and mother’s on the right. Color shows where each person was born.
       <strong>${known} of ${total}</strong> places in ${maxGen} generations have a name so far. Dashed slots are parents still to be found.`;
     const present = [...new Set(slots.filter((s) => s.id && s.gen > 0).map((s) => P[s.id].origin || null))];
     const order = REGIONS.map((r) => r[0]);
@@ -569,8 +569,8 @@
     bindZoomButtons('map', svg, zoom, () => d3.zoomIdentity);
 
     const moves = arcData.filter((a) => a.direct).length;
-    $('#map-note').innerHTML = `<h2>Where the family lived</h2>
-      Gold lines trace ${esc(META.rootLabel)}’s direct line from each parent’s birthplace to the child’s (${moves} moves). Dots grow with the number of births, marriages and deaths recorded there; dashed circles are places known only to the state or country.
+    $('#map-note').innerHTML = `<h2>How the McKeehans moved</h2>
+      Gold lines follow the McKeehans and their direct ancestors from each parent’s birthplace to the child’s (${moves} moves). Dots grow with the number of births, marriages and deaths recorded there; dashed circles are places known only to the state or country.
       <label class="toggle"><input type="checkbox" id="map-all"> Show moves for every relative</label>`;
     $('#map-all').onchange = (e) => setAll(e.target.checked);
 
@@ -748,7 +748,7 @@
       <p class="lede">How the family’s branches crossed oceans and mountains to meet. Each story links to the people in it; click a name to open their page.</p>
       <div class="story-grid">${F.stories.map((s) => `
         <a class="story-card" href="#story-${s.slug}">
-          <svg data-route="${s.slug}" aria-hidden="true"></svg>
+          ${s.cover ? `<div class="sc-cover"><img src="${esc(s.cover.thumb || s.cover.src)}" alt="" loading="lazy"${s.cover.position ? ` style="object-position:${esc(s.cover.position)}"` : ''}>${s.route.length ? `<svg class="sc-inset" data-route="${s.slug}" aria-hidden="true"></svg>` : ''}</div>` : `<svg data-route="${s.slug}" aria-hidden="true"></svg>`}
           <div class="sc-body">${s.era ? `<span class="sc-era">${esc(s.era)}</span>` : ''}<h2>${esc(s.title)}</h2><p>${esc(s.summary)}</p></div>
         </a>`).join('')}</div>
       ${aboutBlock()}
@@ -781,6 +781,16 @@
       </div>
     </div>`;
     el.scrollTop = 0;
+    const figs = [...el.querySelectorAll('.prose figure img')];
+    const list = figs.map((img) => ({ src: img.getAttribute('src'), title: (img.closest('figure').querySelector('figcaption') || {}).textContent || img.alt, people: [] }));
+    figs.forEach((img) => {
+      img.tabIndex = 0;
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', 'Enlarge picture' + (img.alt ? ': ' + img.alt : ''));
+      const open = () => openLightbox(img.getAttribute('src'), list);
+      img.addEventListener('click', open);
+      img.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
     if (s.route.length) loadMap().then(() => drawRoute($('#story-map'), s.route, true));
   }
 
@@ -793,7 +803,7 @@
     if (!coords.length) return;
     const lonSpan = d3.extent(coords, (c) => c[0]);
     const proj = d3.geoConicEqualArea().parallels([33, 62]).rotate([-(lonSpan[0] + lonSpan[1]) / 2, 0]);
-    const pad = numbered ? 34 : 22;
+    const pad = numbered ? 34 : Math.min(22, Math.round(Math.min(w, h) * 0.18));
     let fitTo = { type: 'MultiPoint', coordinates: coords };
     const [[x0, y0], [x1, y1]] = d3.geoBounds(fitTo);
     if (Math.abs(x1 - x0) < 6 && Math.abs(y1 - y0) < 4) {
@@ -844,9 +854,10 @@
     el.querySelectorAll('[data-photo]').forEach((b) => (b.onclick = () => openLightbox(b.dataset.photo)));
   }
 
-  function openLightbox(src) {
-    const G = F.gallery || [];
-    let i = Math.max(0, G.findIndex((g) => g.src === src));
+  function openLightbox(src, list) {
+    let G = list || F.gallery || [];
+    let i = G.findIndex((g) => g.src === src);
+    if (i < 0) { G = [{ src, people: [] }]; i = 0; }
     const box = $('#lightbox');
     const render = () => {
       const g = G[i] || { src, people: [] };
@@ -877,7 +888,7 @@
     const el = $('#view-people');
     el.innerHTML = `<div class="page-inner">
       <h1>Everyone in the tree</h1>
-      <p class="lede">${META.counts.people} people, grouped by surname. A gold dot marks ${esc(META.rootLabel)}’s direct ancestors.</p>
+      <p class="lede">${META.counts.people} people, grouped by surname. A gold dot marks the direct line.</p>
       <div class="people-tools"><input id="people-filter" type="search" placeholder="Filter by name or place" aria-label="Filter people"><span class="count" id="people-count"></span></div>
       <div id="people-list"></div>
       ${aboutBlock()}
