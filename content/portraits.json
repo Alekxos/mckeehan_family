@@ -42,7 +42,7 @@
    "size": 0.34
   },
   {
-   "person": "Anna Ford (1813)",
+   "person": "Anna Ford (1815)",
    "file": "media/william_hatley_and_anna_ford.jpg",
    "title": "Anna (Ford) Hatley; the left half of this photograph, which held William, has faded away",
    "face": [
@@ -88,6 +88,15 @@
     0.19
    ],
    "size": 0.26
+  },
+  {
+   "person": "Caroline McKeehan (1836)",
+   "file": "media/mckeehan_family_carter_county_1898.jpg",
+   "face": [
+    0.122,
+    0.505
+   ],
+   "size": 0.075
   }
  ]
 }

@@ -11,7 +11,7 @@ route:
   - Tennessee, USA | 1890 | Samuel W. McKeehan dies in Tennessee
   - Pullman, Whitman County, Washington, USA | 1912 | Hannah Elizabeth dies at Pullman
 ---
-[[Brewer McKeehan (1770)|Brewer McKeehan]] was born about 1770 in Cumberland County, Pennsylvania, the same county where Mary McKeehan Patton made powder before the Revolution. On 27 March 1794 he married her daughter, [[Margaret Patton (1773)|Margaret "Peggy" Patton]]. Because Brewer and Mary were both McKeehans from Cumberland County, many people assume they were related, perhaps aunt and nephew, but no document seen so far says so.
+[[Brewer McKeehan (1770)|Brewer McKeehan]] was born about 1770 in Cumberland County, Pennsylvania, the same county where Mary McKeehan Patton made powder before the Revolution. On 27 March 1794 he married her daughter, [[Margaret Patton (1773)|Margaret "Peggy" Patton]]. Who Brewer's parents were is still argued. The family group sheet and the *Descendants of Samuel McKeehan* report name his father as Samuel McKeehan, and the published Gourley family history says that Samuel, born in England, was believed to be Mary's brother, which would make Brewer and Peggy first cousins. FamilySearch's shared tree agrees, but it also links Brewer to a different couple, James McKeehan and Hannah Bankhead of Cumberland County, so the question is open.
 
 ![A 1795 map of the Tennessee country](media/stories/tennessee-1795-map.jpg "A 1795 map of the “Tennassee Government”, formerly part of North Carolina, drawn chiefly from surveys by General Daniel Smith. Brewer and Peggy married the year before it was drawn. Tennessee became a state in 1796, the same year Carter County was cut from Washington County.")
 
@@ -24,8 +24,13 @@ George's son [[Samuel W. McKeehan (1832)|Samuel W. McKeehan]] was born on 15 Apr
 
 ![Diagram of the two lines of descent](media/stories/two-paths-diagram.svg "How the McKeehans who went west descend from Brewer and Peggy twice. The gold line runs through Samuel “Brewer” McKeehan and the blue line through his brother George; they meet again in 1860.")
 
-Because of that marriage, every one of their descendants, including the whole family that went west in 1898, reaches Brewer and Peggy along two separate lines, and Mary McKeehan Patton along two lines as well. Genealogists call this pedigree collapse. On the Ancestors chart you can see it: Brewer and Peggy fill two slots in the sixth ring, and John and Mary Patton fill two in the seventh.
+Because of that marriage, every one of their descendants, including the whole family that went west in 1898, reaches Brewer and Peggy along two separate lines, and Mary McKeehan Patton along two lines as well. If Brewer's father really was Mary's brother, Mary's own parents turn up four times. Genealogists call this pedigree collapse. On the Ancestors chart you can see it: Brewer and Peggy fill two slots in the sixth ring, and John and Mary Patton fill two in the seventh.
 
 Samuel W. died in Tennessee on 31 March 1890. Hannah Elizabeth went west with her children in 1898 and died in Pullman, Washington, on 16 April 1912. She is buried in the Hatley Cemetery at Union Flat.
 
-**Still to check:** Find a Grave lists her as Hannah Elizabeth Douglas Dodge, born 1838. A maiden name of Douglas would contradict the family records that make her Samuel Brewer's daughter, so that question is open.
+Hannah did not stay a widow. On 1 June 1901, at Hartline, Washington, "Mrs. Hannah McKeehan" married George W. Dodge, so she died as Hannah Dodge.
+
+![Hannah Elizabeth (McKeehan) Dodge](media/hannah_mckeehan_dodge.jpg "[[Hannah Elizabeth McKeehan (1836)|Hannah Elizabeth (McKeehan) Dodge]] in old age.")
+![Hannah's second marriage, 1901](media/stories/dodge_mckeehan_marriage_1901.jpg "The certificate of Hannah's marriage to [[George W. Dodge (1837)|George W. Dodge]] at Hartline on 1 June 1901, from the Samuel McKeehan binder.")
+
+**Still to check:** Find a Grave and FamilySearch list her as Hannah Elizabeth Douglas, born 1838. The Dodge part is explained by her second marriage. "Douglas" is probably a mix-up with her sister Sabrina, who married a John Douglas in 1842, since every family record makes Hannah Samuel Brewer's daughter and Caroline's twin.
