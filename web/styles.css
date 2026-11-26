@@ -210,6 +210,17 @@ main { flex: 1; position: relative; min-height: 0; }
 .toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; color: var(--ink-2); margin-top: 8px; }
 #map-note { top: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: color-mix(in oklab, var(--card) 92%, transparent); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; backdrop-filter: blur(6px); }
 #map-note h2 { font-size: 20px; }
+#map-note .note-head { display: flex; align-items: flex-start; gap: 4px; }
+#map-note .note-head h2 { flex: 1; margin-right: 4px; }
+#map-note.min .note-head h2 { margin-bottom: 0; cursor: pointer; }
+#map-note.min .note-body { display: none; }
+.note-btn {
+  flex: none; width: 28px; height: 28px; margin: -4px -4px 0 0; display: grid; place-items: center; padding: 0;
+  border: 0; border-radius: 6px; background: transparent; color: var(--ink-2); cursor: pointer;
+}
+.note-btn + .note-btn { margin-left: 4px; }
+.note-btn:hover { background: var(--paper-2); color: var(--ink); }
+.note-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .toggle input { accent-color: var(--thread); }
 
 .tip {
@@ -411,4 +422,45 @@ main { flex: 1; position: relative; min-height: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
+}
+
+/* ------------------------------------------------------------------ family password */
+html.locked .bar, html.locked main { visibility: hidden; }
+html.lockable img[src^="lock:"], html.lockable image[href^="lock:"],
+html.lockable img[src^="media/"], html.lockable image[href^="media/"] { visibility: hidden; }
+.lock {
+  position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px;
+  background: var(--paper);
+}
+.lock-card, .lock-card * { box-sizing: border-box; }
+.lock-card {
+  width: min(400px, 100%); background: var(--card); border: 1px solid var(--rule); border-radius: 14px;
+  padding: 28px 24px 22px; box-shadow: 0 10px 30px rgba(20, 16, 10, 0.08);
+}
+.lock-title { font-family: var(--font-display); font-weight: 400; font-size: 32px; line-height: 1.1; margin: 0 0 10px; }
+.lock-card p { margin: 0 0 18px; color: var(--ink-2); line-height: 1.45; }
+.lock-field { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
+.lock-field input {
+  font: inherit; font-weight: 400; font-size: 17px; padding: 10px 12px; border-radius: 8px;
+  border: 1px solid var(--rule); background: var(--paper); color: var(--ink);
+}
+.lock-field input:focus { outline: 2px solid var(--thread); outline-offset: 1px; border-color: transparent; }
+.lock-keep { display: flex; gap: 8px; align-items: center; margin: 14px 0 18px; font-size: 14px; color: var(--ink-2); }
+.lock-keep input { width: 17px; height: 17px; accent-color: var(--thread); }
+.lock-go { width: 100%; justify-content: center; padding: 11px 12px; font-size: 15px; background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.lock-go:disabled { opacity: 0.6; cursor: progress; }
+.lock-card .lock-msg { margin: 12px 0 0; min-height: 1.45em; font-size: 14px; }
+.lock-card .lock-msg.bad { color: #b3261e; }
+.lock-error { position: fixed; inset: auto 16px 16px; padding: 12px 14px; background: var(--card); border: 1px solid var(--rule); border-radius: 8px; }
+.lock-btn {
+  flex: none; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--rule); background: var(--card); color: var(--ink-2);
+}
+.lock-btn:hover { color: var(--ink); border-color: var(--ink-3); }
+.lock-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .lock-card .lock-msg.bad { color: #f2b8b5; } }
+:root[data-theme="dark"] .lock-card .lock-msg.bad { color: #f2b8b5; }
+@media (max-width: 760px) {
+  .lockable .bar .brand { flex: 1 1 0; }
+  .lock-btn { order: 1; }
 }

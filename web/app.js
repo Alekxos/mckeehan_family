@@ -74,6 +74,7 @@
   // ------------------------------------------------------------ boot
   async function boot() {
     try {
+      if (window.siteLock) await window.siteLock.ready;
       F = window.FAMILY || (await (await fetch('data/family.json')).json());
     } catch (e) {
       document.querySelector('main').innerHTML = '<p style="padding:24px">The family data could not be loaded. Please reload the page.</p>';
@@ -542,9 +543,11 @@
     const pts = names.map((n) => ({ name: n, xy: proj(placeXY(n)), items: idx[n], region: F.places[n].region }))
       .sort((a, b) => b.items.length - a.items.length);
     const rOf = (d) => 3.5 + Math.sqrt(d.items.length) * 2.2;
+    // Dots keep the same size on screen at every zoom, a little smaller on phones.
+    const rScreen = (d) => Math.min(isDesktop() ? 20 : 13, (d.region ? rOf(d) + 6 : rOf(d)) * (isDesktop() ? 1 : 0.75));
     const ptSel = g.append('g').selectAll('circle').data(pts).join('circle')
       .attr('class', (d) => 'map-pt' + (d.region ? ' region' : ''))
-      .attr('cx', (d) => d.xy[0]).attr('cy', (d) => d.xy[1]).attr('r', (d) => (d.region ? rOf(d) + 6 : rOf(d)))
+      .attr('cx', (d) => d.xy[0]).attr('cy', (d) => d.xy[1]).attr('r', rScreen)
       .on('mousemove', (e, d) => showTip(e, placeTip(d)))
       .on('mouseleave', hideTip)
       .on('click', (e, d) => openPlace(d.name));
@@ -557,22 +560,42 @@
         const sx = d.xy[0] * k, sy = d.xy[1] * k;
         const ok = taken.every(([x, y]) => Math.abs(x - sx) > 90 || Math.abs(y - sy) > 18);
         if (ok) taken.push([sx, sy]);
-        d3.select(this).attr('display', ok ? null : 'none').attr('dx', (rOf(d) + 4) / k).attr('dy', 4 / k).style('font-size', 12 / k + 'px').style('stroke-width', 3 / k + 'px');
+        d3.select(this).attr('display', ok ? null : 'none').attr('dx', (rScreen(d) + 4) / k).attr('dy', 4 / k).style('font-size', 12 / k + 'px').style('stroke-width', 3 / k + 'px');
       });
     };
     const zoom = d3.zoom().scaleExtent([0.6, 80]).on('zoom', (e) => {
       g.attr('transform', e.transform);
-      ptSel.attr('r', (d) => (d.region ? rOf(d) + 6 : rOf(d)) / Math.sqrt(e.transform.k));
+      ptSel.attr('r', (d) => rScreen(d) / e.transform.k);
     }).on('end', (e) => placeLabels(e.transform.k));
     svg.call(zoom).on('dblclick.zoom', null);
     placeLabels(1);
     bindZoomButtons('map', svg, zoom, () => d3.zoomIdentity);
 
     const moves = arcData.filter((a) => a.direct).length;
-    $('#map-note').innerHTML = `<h2>How the McKeehans moved</h2>
-      Gold lines follow the McKeehans and their direct ancestors from each parent’s birthplace to the child’s (${moves} moves). Dots grow with the number of births, marriages and deaths recorded there; dashed circles are places known only to the state or country.
-      <label class="toggle"><input type="checkbox" id="map-all"> Show moves for every relative</label>`;
+    const note = $('#map-note');
+    note.innerHTML = `<div class="note-head"><h2>How the McKeehans moved</h2>
+        <button class="note-btn" data-note="min" aria-expanded="true" aria-controls="map-note-body"></button>
+        <button class="note-btn" data-note="close" aria-label="Close the map guide" title="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <div class="note-body" id="map-note-body">Gold lines follow the McKeehans and their direct ancestors from each parent’s birthplace to the child’s (${moves} moves). Dots are bigger where more births, marriages and deaths were recorded; dashed circles are places known only to the state or country.
+      <label class="toggle"><input type="checkbox" id="map-all"> Show moves for every relative</label></div>`;
     $('#map-all').onchange = (e) => setAll(e.target.checked);
+    const guide = $('#map-guide');
+    const setNote = (state) => {
+      store.set('map-note', state);
+      note.hidden = state === 'closed';
+      guide.hidden = state !== 'closed';
+      note.classList.toggle('min', state === 'min');
+      const b = note.querySelector('[data-note="min"]');
+      b.setAttribute('aria-expanded', String(state !== 'min'));
+      b.setAttribute('aria-label', state === 'min' ? 'Expand the map guide' : 'Minimize the map guide');
+      b.title = state === 'min' ? 'Expand' : 'Minimize';
+      b.innerHTML = state === 'min' ? '<svg viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></svg>' : '<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>';
+    };
+    note.querySelector('[data-note="min"]').onclick = () => setNote(note.classList.contains('min') ? 'open' : 'min');
+    note.querySelector('[data-note="close"]').onclick = () => setNote('closed');
+    note.querySelector('h2').onclick = () => { if (note.classList.contains('min')) setNote('open'); };
+    guide.onclick = () => setNote('open');
+    setNote(['min', 'closed'].includes(store.get('map-note')) ? store.get('map-note') : 'open');
 
     S.mapApi = {
       highlight(placesList) {
@@ -787,7 +810,7 @@
       img.tabIndex = 0;
       img.setAttribute('role', 'button');
       img.setAttribute('aria-label', 'Enlarge picture' + (img.alt ? ': ' + img.alt : ''));
-      const open = () => openLightbox(img.getAttribute('src'), list);
+      const open = () => openLightbox(img.getAttribute('data-src') || img.getAttribute('src'), list);
       img.addEventListener('click', open);
       img.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
     });

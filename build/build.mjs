@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import ELK from 'elkjs/lib/elk.bundled.js';
 import { readGedcom } from './gedcom.mjs';
 import { parseFrontmatter, renderMarkdown } from './markdown.mjs';
+import { lockSite } from './lock.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = Object.fromEntries(
@@ -785,5 +786,16 @@ const inner = html
   .replace('<script src="app.js"></script>', () => '<script>\n' + fs.readFileSync(path.join(OUT, 'app.js'), 'utf8') + '\n</script>');
 fs.writeFileSync(path.join(OUT, 'preview.html'), inner);
 
+// Lock the site behind the family password (see build/lock.mjs). A build for
+// looking at locally can skip this with --no-lock; never publish that one.
+const lockCfg = config.lock || {};
+let locked = null;
+if (lockCfg.enabled && !('no-lock' in args)) {
+  const lockPath = path.resolve(ROOT, args.lock || lockCfg.file || 'content/lock.json');
+  if (!fs.existsSync(lockPath)) throw new Error(`The site is set to be locked but ${path.relative(ROOT, lockPath)} is missing. Run tools/set-password.mjs first.`);
+  locked = await lockSite(OUT, lockPath);
+}
+
 const kb = (f) => Math.round(fs.statSync(path.join(OUT, f)).size / 1024) + ' KB';
-console.log(`Built ${OUT}: ${bundle.meta.counts.people} people, ${stories.length} stories, ${copiedMedia.size} media files, layout ${layoutData.width}x${layoutData.height}; family.json ${kb('data/family.json')}, map.json ${kb('data/map.json')}`);
+const sizes = locked ? `locked with key ${locked.keyId}: ${locked.files} files encrypted (${Math.round(locked.bytes / 1024)} KB)` : `family.json ${kb('data/family.json')}, map.json ${kb('data/map.json')}${lockCfg.enabled ? '; NOT LOCKED, do not publish' : ''}`;
+console.log(`Built ${OUT}: ${bundle.meta.counts.people} people, ${stories.length} stories, ${copiedMedia.size} media files, layout ${layoutData.width}x${layoutData.height}; ${sizes}`);

@@ -3,6 +3,11 @@
   "subtitle": "The McKeehans and their branches",
   "customDomain": "mckeehanfamily.org",
   "_customDomain": "Domain the site is served at (for example mckeehanfamily.org). When set, the build writes dist/CNAME so GitHub Pages keeps the domain on every publish. Leave empty until the domain's DNS points at GitHub Pages, or the github.io address will redirect to a domain that does not work yet.",
+  "lock": {
+    "enabled": true,
+    "file": "content/lock.json",
+    "_note": "Set 2026-11-26 at the owner's request: the published site opens only with the family password. The build encrypts all family data and photos; tools/set-password.mjs sets or changes the password. Build with --no-lock only to look at the site locally, never to publish."
+  },
   "gedcom": [
     "/mnt/project-files/tree/mckeehan.ged",
     "content/bootstrap/from-rootsmagic.ged"

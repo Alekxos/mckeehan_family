@@ -13,9 +13,12 @@ The output is a folder of plain static files, so it can be hosted anywhere
 npm install
 node build/build.mjs            # reads the first GEDCOM listed in site.config.json
 node build/build.mjs --gedcom path/to/other.ged --out dist
+node build/build.mjs --no-lock  # readable copy for looking at locally; never publish it
 ```
 
-Output goes to `dist/`:
+The published site is locked with the family password (see "Family password"
+below), so a normal build encrypts the family files. Before locking, output
+goes to `dist/`:
 
 - `index.html`, `app.js`, `styles.css`, `vendor/d3.min.js`: the site
 - `data/family.json`: people, families, layout, places and stories
@@ -24,7 +27,9 @@ Output goes to `dist/`:
   with `media/thumbs/` (480px copies) and `media/portraits/` (face crops for tree cards)
 - `preview.html`: the same page with CSS and script inlined, for hosts that wrap pages
 
-Open it with any static server, for example `npx serve dist`.
+Open it with any static server, for example `npx serve dist`. The locked
+site needs `https://` or `localhost`, because browsers only offer the
+decryption it uses on secure pages.
 
 ## Where the content comes from
 
@@ -89,11 +94,35 @@ gets an automatic crop only when a photo is linked to them alone.
 - Notes and source titles are published as written, so keep living people's
   names out of them.
 
+## Family password
+
+Since November 2026 the site opens only with a shared family password, to keep
+scrapers and AI crawlers out. `robots.txt` and a `noindex` tag also ask
+well-behaved bots to stay away.
+
+- `build/lock.mjs` encrypts everything under `data/` and `media/` (the tree,
+  stories, photos and portraits) with AES-GCM, using a fresh key for each build,
+  and saves the files under `x/` with random names. Only the page shell, app
+  code and styles stay readable, and they hold no family data.
+- `content/lock.json` holds a public key and the matching private key in
+  wrapped form (PBKDF2-SHA256, 600,000 rounds). Builds use the public key, so
+  rebuilding and publishing never needs the password. The password itself is
+  not stored anywhere in this repository.
+- `web/lock.js` shows the password screen, unwraps the private key in the
+  visitor's browser, and decrypts files as the app asks for them. Capitals and
+  spaces in the password do not matter. "Keep this device unlocked" remembers
+  the key in the browser until the lock button in the header is pressed.
+- To change the password: `SITE_PASSWORD='new password' node tools/set-password.mjs`,
+  then rebuild and publish. Every device then needs the new password.
+- Anyone can download the encrypted files and guess passwords offline, so the
+  protection is only as strong as the password. A few words together is best.
+
 ## Publishing and the custom domain
 
-The built `dist/` folder (without `preview.html`) is published to the
-`gh-pages` branch as a single commit, replacing the branch each time so old
-builds do not stay in its history. GitHub Pages serves that branch.
+`tools/publish.sh "message"` publishes `dist/` (without `preview.html`) to
+the `gh-pages` branch as a single commit, replacing the branch each time so old
+builds do not stay in its history. It refuses to publish a build that is not
+locked. GitHub Pages serves that branch.
 
 To serve the site at its own domain (for example `mckeehanfamily.org`):
 
